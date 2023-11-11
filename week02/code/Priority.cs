@@ -57,7 +57,8 @@ public static class Priority {
         }
 
         // Defect(s) Found: The highest priority item is displayed every time, which means it isn't actually dequeued.
-        // It remains in the queue.
+        // It remains in the queue. Even when there are two items with the highest priority, the one closest to the back 
+        // of the queue is displayed instead of the one closest to the front.
 
         Console.WriteLine("---------");
 
