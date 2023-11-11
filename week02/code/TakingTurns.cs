@@ -25,7 +25,8 @@ public static class TakingTurns {
         // Console.WriteLine(players);    // This can be un-commented out for debug help
         while (players.Length > 0)
             players.GetNextPerson();
-        // Defect(s) Found: 
+        // Defect(s) Found: When a person is enqueued, they are inserted at the front of the List instead of at the back.
+        // Therefore, when we dequeue them and they still have turns left, they are re-queued to the front of the List.
 
         Console.WriteLine("---------");
 
@@ -48,7 +49,8 @@ public static class TakingTurns {
         while (players.Length > 0)
             players.GetNextPerson();
 
-        // Defect(s) Found: 
+        // Defect(s) Found: When a person is enqueued, they are inserted at the front of the List instead of at the back.
+        // Therefore, when we dequeue them and they still have turns left, they are incorrectly re-queued to the front of the List.
 
         Console.WriteLine("---------");
 
@@ -66,7 +68,7 @@ public static class TakingTurns {
             players.GetNextPerson();
             // Console.WriteLine(players);
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: Even though Tim has infinite turns (<= 0), his name is only displayed once.
 
         Console.WriteLine("---------");
 
@@ -76,6 +78,6 @@ public static class TakingTurns {
         Console.WriteLine("Test 4");
         players = new TakingTurnsQueue();
         players.GetNextPerson();
-        // Defect(s) Found:
+        // Defect(s) Found: No defects found. The test case passes.
     }
 }
