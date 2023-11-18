@@ -25,6 +25,21 @@
     private static int CountDuplicates(int[] data)
     {
         // Add code here.
-        return 0;
+        // Create a new set for the unique numbers
+        HashSet<int> uniqueNumbers = new HashSet<int>();
+        // Create a new set for the duplicate numbers
+        HashSet<int> duplicateNumbers = new HashSet<int>();
+
+        // Iterate through the "numbers" array and add the unique numbers to the "uniqueNumbers" set
+        foreach (int num in data) 
+        {
+            // If a number is already contained in the "uniqueNumbers" set, then add that number to the "duplicateNumbers" set
+            if (!uniqueNumbers.Add(num)) 
+            {
+                duplicateNumbers.Add(num);
+            }
+        }
+        // Return the size of the "duplicateNumbers" set
+        return duplicateNumbers.Count;
     }
 }

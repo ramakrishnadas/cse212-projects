@@ -30,6 +30,15 @@ public class Maze {
     /// </summary>
     public void MoveLeft() {
         // FILL IN CODE
+
+        // Store the list of booleans (which informs us of the valid directions) into a variable
+        // Check if the first item in the list of booleans (validDirections[0]), which corresponds to "Left",  is false
+        // If it's false, display "Can't go that way!". Otherwise, move left on the X axis.
+        bool[] validDirections = _mazeMap[(_currX, _currY)];
+        if (!validDirections[0]) 
+            Console.WriteLine("Can't go that way!");
+        else
+            _currX -= 1;
     }
 
     /// <summary>
@@ -38,6 +47,15 @@ public class Maze {
     /// </summary>
     public void MoveRight() {
         // FILL IN CODE
+
+        // Store the list of booleans (which informs us of the valid directions) into a variable
+        // Check if the second item in the list of booleans (validDirections[1]), which corresponds to "Right",  is false
+        // If it's false, display "Can't go that way!". Otherwise, move right on the X axis.
+        bool[] validDirections = _mazeMap[(_currX, _currY)];
+        if (!validDirections[1]) 
+            Console.WriteLine("Can't go that way!");
+        else
+            _currX += 1;
     }
 
     /// <summary>
@@ -46,6 +64,15 @@ public class Maze {
     /// </summary>
     public void MoveUp() {
         // FILL IN CODE
+
+        // Store the list of booleans (which informs us of the valid directions) into a variable
+        // Check if the third item in the list of booleans (validDirections[2]), which corresponds to "Up",  is false
+        // If it's false, display "Can't go that way!". Otherwise, move up on the Y axis.
+        bool[] validDirections = _mazeMap[(_currX, _currY)];
+        if (!validDirections[2]) 
+            Console.WriteLine("Can't go that way!");
+        else
+            _currY -= 1;
     }
 
     /// <summary>
@@ -54,6 +81,15 @@ public class Maze {
     /// </summary>
     public void MoveDown() {
         // FILL IN CODE
+
+        // Store the list of booleans (which informs us of the valid directions) into a variable
+        // Check if the fourth item in the list of booleans (validDirections[3]), which corresponds to "Down",  is false
+        // If it's false, display "Can't go that way!". Otherwise, move down on the Y axis.
+        bool[] validDirections = _mazeMap[(_currX, _currY)];
+        if (!validDirections[3]) 
+            Console.WriteLine("Can't go that way!");
+        else
+            _currY += 1;
     }
 
     public void ShowStatus() {
