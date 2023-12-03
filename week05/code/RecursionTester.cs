@@ -1,3 +1,5 @@
+using System.Threading.Tasks.Dataflow;
+
 public static class RecursionTester {
     /// <summary>
     /// Entry point for the Prove 8 tests
@@ -67,7 +69,7 @@ public static class RecursionTester {
         Console.WriteLine(CountWaysToClimb(20)); // 121415
         // Uncomment out the test below after implementing memoization.  It won't work without it.
         // TODO Problem 3
-        // Console.WriteLine(CountWaysToClimb(100));  // 180396380815100901214157639
+        Console.WriteLine(CountWaysToClimb(100));  // 180396380815100901214157639
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");
@@ -147,7 +149,14 @@ public static class RecursionTester {
     /// </summary>
     public static int SumSquaresRecursive(int n) {
         // TODO Start Problem 1
-        return 0;
+
+        // If n is less than or equal to 0, return 0. This is the base case.
+        if (n <= 0)
+            return 0;
+
+        // Otherwise, return the sum of n squared plus the recursion of n minus 1
+        return n * n + SumSquaresRecursive(n - 1);
+        
     }
 
     /// <summary>
@@ -171,6 +180,27 @@ public static class RecursionTester {
     /// </summary>
     public static void PermutationsChoose(string letters, int size, string word = "") {
         // TODO Start Problem 2
+        
+        // If the word has reached the desired size, print it. This is the base case.
+        if (word.Length == size)
+        {
+            Console.WriteLine(word);
+            return;
+        }
+        else
+        {
+            // Iterate through each letter and try it at the current position
+            for (int i = 0; i < letters.Length; i++)
+            {
+                // Skip this iteration if the letter is already in the word
+                 if (word.Contains(letters[i].ToString()))
+                    continue;
+
+                // Make a recursive call with the updated word and reduced size
+                PermutationsChoose(letters, size, word + letters[i]);
+            }
+        }
+        
     }
 
     /// <summary>
@@ -219,6 +249,10 @@ public static class RecursionTester {
     /// until the memoization is implemented.
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null) {
+
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+
         // Base Cases
         if (s == 0)
             return 0;
@@ -229,8 +263,15 @@ public static class RecursionTester {
         if (s == 3)
             return 4;
 
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        // Check if we have solved this one before
+        if (remember.ContainsKey(s))
+            return remember[s];
+
+        // Otherwise, solve using recursion
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+
+        // Remember result for potential later use
+        remember[s] = ways;
         return ways;
     }
 
@@ -249,6 +290,27 @@ public static class RecursionTester {
     /// </summary>
     public static void WildcardBinary(string pattern) {
         // TODO Start Problem 4
+
+        // If the pattern does not contain a wildcard, print it and return. This is the base case.
+        if (!pattern.Contains("*"))
+        {
+            Console.WriteLine(pattern);
+        }
+        else 
+        {
+            // Find the index of the first wildcard
+            int wildcard = pattern.IndexOf("*");
+            int wildcardNext = wildcard + 1;
+
+            // Create two strings by replacing the wildcard with '0' and '1'
+            string binaryString0 = pattern[..wildcard] + "0" + pattern[wildcardNext..];
+            string binaryString1 = pattern[..wildcard] + "1" + pattern[wildcardNext..];
+
+            // Make recursive calls
+            WildcardBinary(binaryString0);
+            WildcardBinary(binaryString1);
+        }
+
     }
 
     /// <summary>
@@ -256,16 +318,56 @@ public static class RecursionTester {
     /// 'end' square.
     /// </summary>
     public static void SolveMaze(Maze maze, int x = 0, int y = 0, List<ValueTuple<int, int>>? currPath = null) {
+        
         // If this is the first time running the function, then we need
         // to initialize the currPath list.
         if (currPath == null)
+        {
             currPath = new List<ValueTuple<int, int>>();
-
+            currPath.Add((x, y));
+        }
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
         // TODO Start Problem 5
         // ADD CODE HERE
 
-        // Console.WriteLine(currPath.AsString()); // Use this to print out your path when you find the solution
+        // If the current position is the end, then the currentPath is a solution. This is the base case
+        if (maze.IsEnd(x, y))
+            Console.WriteLine(currPath.AsString()); 
+
+        // Check if the move is valid. If it is, add it to the current path, and make a recursive call
+        
+        // Right
+        if (maze.IsValidMove(currPath, x + 1, y))
+        {
+            currPath.Add((x + 1, y));
+            SolveMaze(maze, x + 1, y, currPath);
+            currPath.RemoveAt(currPath.Count - 1);
+        }
+        
+        // Down
+        if (maze.IsValidMove(currPath, x, y + 1))
+        {
+            currPath.Add((x, y + 1));
+            SolveMaze(maze, x, y + 1, currPath);
+            currPath.RemoveAt(currPath.Count - 1);
+        }
+        
+        // Left
+        if (maze.IsValidMove(currPath, x - 1, y))
+        {
+            currPath.Add((x - 1, y));
+            SolveMaze(maze, x - 1, y, currPath);
+            currPath.RemoveAt(currPath.Count - 1);
+        }
+        
+        // Up
+        if (maze.IsValidMove(currPath, x, y - 1))
+        {
+            currPath.Add((x, y - 1));
+            SolveMaze(maze, x, y - 1, currPath);
+            currPath.RemoveAt(currPath.Count - 1);
+        }
+        
     }
 }
