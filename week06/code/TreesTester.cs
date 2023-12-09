@@ -62,6 +62,7 @@ public static class TreesTester {
     /// </summary>
     private static BinarySearchTree CreateTreeFromSortedList(int[] sortedNumbers) {
         var bst = new BinarySearchTree(); // Create an empty BST to start with 
+
         InsertMiddle(sortedNumbers, 0, sortedNumbers.Length - 1, bst);
         return bst;
     }
@@ -98,5 +99,38 @@ public static class TreesTester {
     /// <param name="bst">the BinarySearchTree in which to insert the values</param>
     private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst) {
         // TODO Start Problem 5
+
+        // First check if the array is empty
+        if (sortedNumbers.Length == 0)
+        {
+            return;
+        }
+            
+        // if the last index minus the first index is zero, it means there is only one element in the array,
+        // so we insert the first one
+        if (last - first == 0)
+        {
+            bst.Insert(sortedNumbers[first]);
+        }
+        // if the last index minus the first index is one, it means there are two elements in the array,
+        // so we insert both the first and last elements
+        else if (last - first == 1)
+        {
+            // Subarray has two elements, choose one for insertion
+            bst.Insert(sortedNumbers[first]);
+            bst.Insert(sortedNumbers[last]);
+        }
+        else 
+        {
+            // in every other case, we calculate the middle of the array, insert the element that's in the middle,
+            // and make recursive calls on the first and second halves of the array
+            var middle = (first + last) / 2;
+
+            bst.Insert(sortedNumbers[middle]);
+
+            InsertMiddle(sortedNumbers, first, middle - 1, bst);
+            InsertMiddle(sortedNumbers, middle + 1, last, bst);
+        }
+
     }
 }
